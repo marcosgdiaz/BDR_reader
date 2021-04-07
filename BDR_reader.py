@@ -27,17 +27,17 @@ path = filedialog.askopenfilenames(
 root.destroy()
 transitions = BDR_reader(path)
 
-win_scale = (16.8, 9.6)
+win_scale = (17.5, 9.6)
 fig, ax = plt.subplots(1, 2, figsize=win_scale)
 
 dis_input = {
     "axes_phase": ax[0],
     "axes_amp": ax[1],
-    "marker_size": 3,
+    "marker_size": 20,
     "upper_th": float(sys.argv[1]) if len(sys.argv) == 3 else 2,
     "lower_th": float(sys.argv[2]) if len(sys.argv) == 3 else -2.43,
     "invert": True,
-    "shaded": True,
+    "shaded": False,
 }
 
 # Initializing
@@ -57,20 +57,20 @@ dis.update_text()
 make_cursor(dis.lines_phase, dis.lines_amp)
 
 # Make checkbuttons with all plotted lines with correct visibility
-check = make_legend(dis)
+# check = make_legend(dis)
 
 
-def func_buttons(event):
-    for i, k in zip(dis.lines_phase, dis.lines_amp):
-        if i.get_label() == event:
-            i.set_visible(np.invert(i.get_visible()))
-            k.set_visible(np.invert(k.get_visible()))
-            break
-    dis.update_text()
-    plt.draw()
+# def func_buttons(event):
+#     for i, k in zip(dis.lines_phase, dis.lines_amp):
+#         if i.get_label() == event:
+#             i.set_visible(np.invert(i.get_visible()))
+#             k.set_visible(np.invert(k.get_visible()))
+#             break
+#     dis.update_text()
+#     plt.draw()
 
 
-check.on_clicked(func_buttons)
+# check.on_clicked(func_buttons)
 
 #  Make check buttons for Invert and Filling options
 check_2 = make_buttons()

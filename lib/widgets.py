@@ -7,28 +7,7 @@ Created on Wed Mar 17 11:19:04 2021
 from matplotlib.widgets import CheckButtons, TextBox
 import matplotlib.pyplot as plt
 
-_colors = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-    "#d62728",
-    "#9467bd",
-    "#8c564b",
-    "#e377c2",
-    "#7f7f7f",
-    "#bcbd22",
-    "#17becf",
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-    "#d62728",
-    "#9467bd",
-    "#8c564b",
-    "#e377c2",
-    "#7f7f7f",
-    "#bcbd22",
-    "#17becf",
-]
+_colors = ["white"] * 10
 
 _legend = {
     "x": 0.02,
@@ -41,15 +20,15 @@ _legend = {
 }
 
 _buttons = {
-    "x": 0.48,
-    "y": 0.15,
-    "width": 0.103,
+    "x": 0.53,
+    "y": 0.1,
+    "width": 0.13,
     "height": 0.15,
 }
 
 _submit_box = {
-    "x": 0.37,
-    "y": 0.25,
+    "x": 0.42,
+    "y": 0.2,
     "width": 0.04,
     "height": 0.075,
     "separation": 0.1,
@@ -97,7 +76,7 @@ def make_legend(dis):
 
 def make_buttons():
     labels = ["Invert", "Bacteria area"]
-    visibility = [True, True, True]
+    visibility = [True, False]
     rax = plt.axes(
         [_buttons["x"], _buttons["y"], _buttons["width"], _buttons["height"]]
     )

@@ -10,21 +10,28 @@ from matplotlib.collections import PathCollection
 from matplotlib import rcParams
 import numpy as np
 
+fontsize = 16
 rcParams["font.family"] = "serif"
+rcParams["font.size"] = fontsize
 
 _location = {
     "height": 0.64,
     "width": 0.74,
     "y_axis": 0.3,
-    "x_axis_phase": 0.18,
-    "x_axis_amp": 0.07,
-    "x_text": 0.65,
-    "y_text": 0.2,
+    "x_axis_phase": 0.23,
+    "x_axis_amp": 0.15,
+    "x_text": 0.75,
+    "y_text": 0.15,
 }
 
-_plot_param = {"amp_limits": (0, 0.025), "margins": (0, 0), "marker_size": 3}
+_plot_param = {
+    "amp_limits": (0, 35),
+    "margins": (0, 0),
+    "marker_size": 200,
+    "shapes": ["^", "s", "o", "*", "d", "X"] * 2,
+}
 
-_visualization = {"fontsize": 14, "max_title_length": 30}
+_visualization = {"fontsize": fontsize, "max_title_length": 30}
 
 _fill_args = {"color": "blue", "alpha": 0.1, "interpolate": True}
 
@@ -36,6 +43,7 @@ class DisplayProperties:
     axes_phase = None
     axes_amp = None
     marker_size = _plot_param["marker_size"]
+    shapes = _plot_param["shapes"]
     upper_th = 0
     lower_th = 0
     invert = False
@@ -75,8 +83,8 @@ class DisplayProperties:
         y_low = [self.lower_th, self.lower_th]
         y_high = [self.upper_th, self.upper_th]
         lims = [-np.pi, np.pi]
-        self.axes_phase.plot(lims, y_high, "b--")
-        self.axes_phase.plot(lims, y_low, "b--")
+        self.axes_phase.plot(lims, y_high, "k--")
+        self.axes_phase.plot(lims, y_low, "k--")
 
     def initialise_amp(self):
         """Setting amplitude axes properties."""
@@ -90,8 +98,8 @@ class DisplayProperties:
             chart_box.height * _location["height"],
         ]
         self.axes_amp.set_position(position)
-        self.axes_amp.set_xlabel("LF amp [V]")
-        self.axes_amp.set_ylabel("HF amp [V]")
+        self.axes_amp.set_xlabel("LF amp [mV]")
+        self.axes_amp.set_ylabel("HF amp [mV]")
         self.axes_amp.margins(*_plot_param["margins"])
         self.axes_amp.set_ylim(_plot_param["amp_limits"])
         self.axes_amp.set_xlim(_plot_param["amp_limits"])
@@ -171,31 +179,32 @@ class DisplayProperties:
     def plotting(self, transitions):
         """Plotting the transitions. Both amplitude and phase plot"""
 
-        for i in transitions:
+        for n, i in enumerate(transitions):
             i.list2array()
             idx = i.site == b"site0"
             title = i.title[: _visualization["max_title_length"]]
             self.axes_phase.scatter(
                 i.lf_phase[idx],
                 i.hf_phase[idx],
-                self.marker_size,
-                label=title + "_site0",
-            )
-
-            self.axes_phase.scatter(
-                i.lf_phase[np.invert(idx)],
-                i.hf_phase[np.invert(idx)],
-                self.marker_size,
-                label=title + "_site1",
+                s=self.marker_size,
+                color="black",
+                marker=self.shapes[n],
+                label=title,
             )
 
             self.axes_amp.scatter(
-                i.lf_amp[idx], i.hf_amp[idx], self.marker_size, label=title + "_site0"
+                i.lf_amp[idx] * 1e3,
+                i.hf_amp[idx] * 1e3,
+                s=self.marker_size,
+                color="black",
+                marker=self.shapes[n],
+                label=title,
             )
 
-            self.axes_amp.scatter(
-                i.lf_amp[np.invert(idx)],
-                i.hf_amp[np.invert(idx)],
-                self.marker_size,
-                label=title + "_site1",
-            )
+        self.axes_phase.legend(
+            bbox_to_anchor=(-0.25, 1),
+            labelspacing=1,
+            markerscale=2,
+            borderpad=1,
+            edgecolor="inherit",
+        )
