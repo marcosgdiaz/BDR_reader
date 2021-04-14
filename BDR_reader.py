@@ -33,11 +33,14 @@ fig, ax = plt.subplots(1, 2, figsize=win_scale)
 dis_input = {
     "axes_phase": ax[0],
     "axes_amp": ax[1],
-    "marker_size": 20,
-    "upper_th": float(sys.argv[1]) if len(sys.argv) == 3 else 2,
-    "lower_th": float(sys.argv[2]) if len(sys.argv) == 3 else -2.43,
+    "upper_th": float(sys.argv[1]) if len(sys.argv) == 3 else 4,
+    "lower_th": float(sys.argv[2]) if len(sys.argv) == 3 else -4,
     "invert": True,
     "shaded": False,
+    "decimation": 1,
+    "marker_size": 4,
+    "colors": ["orange", "blue", "gray", "whitesmoke", "green", "lightgray"],
+    "shapes": [".", ".", ".", ".", ".", "."],
 }
 
 # Initializing
@@ -54,7 +57,7 @@ dis.draw_th()
 dis.update_text()
 
 # Make data points selectable by hovering
-make_cursor(dis.lines_phase, dis.lines_amp)
+# make_cursor(dis.lines_phase, dis.lines_amp)
 
 # Make checkbuttons with all plotted lines with correct visibility
 # check = make_legend(dis)

@@ -28,7 +28,8 @@ _plot_param = {
     "amp_limits": (0, 35),
     "margins": (0, 0),
     "marker_size": 200,
-    "shapes": ["^", "s", "o", "*", "d", "X"] * 2,
+    "shapes": ["o", "s", "^", "*", "P", "d"] * 2,
+    "colors": ["black", "white", "gray"] * 2,
 }
 
 _visualization = {"fontsize": fontsize, "max_title_length": 30}
@@ -44,10 +45,12 @@ class DisplayProperties:
     axes_amp = None
     marker_size = _plot_param["marker_size"]
     shapes = _plot_param["shapes"]
+    colors = _plot_param["colors"]
     upper_th = 0
     lower_th = 0
     invert = False
     shaded = False
+    decimation = 1
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -183,12 +186,12 @@ class DisplayProperties:
             i.list2array()
             idx = i.site == b"site0"
             title = i.title[: _visualization["max_title_length"]]
+
             self.axes_phase.scatter(
-                i.lf_phase[idx],
-                i.hf_phase[idx],
+                i.lf_phase[idx][:: self.decimation],
+                i.hf_phase[idx][:: self.decimation],
                 s=self.marker_size,
-                color="black",
-                marker=self.shapes[n],
+                color=self.colors[n],
                 label=title,
             )
 
@@ -196,8 +199,7 @@ class DisplayProperties:
                 i.lf_amp[idx] * 1e3,
                 i.hf_amp[idx] * 1e3,
                 s=self.marker_size,
-                color="black",
-                marker=self.shapes[n],
+                color=self.colors[n],
                 label=title,
             )
 
