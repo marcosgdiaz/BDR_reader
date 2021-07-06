@@ -120,10 +120,13 @@ class DisplayProperties:
             y_high = [self.upper_th, self.upper_th]
             x_lims = [-np.pi, np.pi]
             if self.invert:
-                self.axes_phase.fill_between(x_lims, y_high, np.pi, **_fill_args)
-                self.axes_phase.fill_between(x_lims, y_low, -np.pi, **_fill_args)
+                self.axes_phase.fill_between(
+                    x_lims, y_high, np.pi, **_fill_args)
+                self.axes_phase.fill_between(
+                    x_lims, y_low, -np.pi, **_fill_args)
             else:
-                self.axes_phase.fill_between(x_lims, y_high, y_low, **_fill_args)
+                self.axes_phase.fill_between(
+                    x_lims, y_high, y_low, **_fill_args)
 
     def update_text(self):
         """Updating total count, bacteria count and particle count according
@@ -138,12 +141,14 @@ class DisplayProperties:
                 total_count += len(data)
                 if self.invert:
                     bac_count += len(
-                        data[np.logical_or(data > self.upper_th, data < self.lower_th)]
+                        data[np.logical_or(
+                            data > self.upper_th, data < self.lower_th)]
                     )
                 else:
                     bac_count += len(
                         data[
-                            np.logical_and(data <= self.upper_th, data >= self.lower_th)
+                            np.logical_and(data <= self.upper_th,
+                                           data >= self.lower_th)
                         ]
                     )
         part_count = total_count - bac_count
